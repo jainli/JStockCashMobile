@@ -1,0 +1,9 @@
+CREATE TABLE users(
+
+id INT NOT NULL AUTO_INCREMENT,
+nom VARCHAR(100) NOT NULL
+pass TEXT NOT NULL
+constant PK8USER primary key(id)
+
+
+)ENGINE = INNODB CHARSET'utf8';
