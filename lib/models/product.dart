@@ -1,5 +1,5 @@
-import 'package:jstockcash/models/category.dart';
-import 'package:jstockcash/models/mark.dart';
+import '../../models/category.dart';
+import '../../models/mark.dart';
 
 class Product {
 

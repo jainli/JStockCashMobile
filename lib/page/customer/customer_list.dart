@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'package:jstockcash/models/CustomerModel.dart';
-import 'package:jstockcash/page/authentification/connection.dart';
-import 'package:jstockcash/page/customer/customer_create.dart';
-import 'package:jstockcash/page/customer/customer_view.dart';
-import 'package:jstockcash/page/widget/navigatorDrawer.dart';
-import 'package:jstockcash/services/auth_service.dart';
-import 'package:jstockcash/services/customer_service.dart';
+import '../../models/CustomerModel.dart';
+import '../../page/authentification/connection.dart';
+import '../../page/customer/customer_create.dart';
+import '../../page/customer/customer_view.dart';
+import '../../page/widget/navigatorDrawer.dart';
+import '../../services/auth_service.dart';
+import '../../services/customer_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomerList extends StatefulWidget {

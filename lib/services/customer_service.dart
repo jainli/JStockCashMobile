@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:core';
 
-import 'package:jstockcash/page/widget/api.dart';
-import 'package:jstockcash/models/CustomerModel.dart';
+import '../../page/widget/api.dart';
+import '../../models/CustomerModel.dart';
 
 
 

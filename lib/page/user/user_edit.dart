@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:jstockcash/models/profil.dart';
-import 'package:jstockcash/models/userModel.dart';
-import 'package:jstockcash/page/authentification/connection.dart';
-import 'package:jstockcash/page/user/user_profil.dart';
-import 'package:jstockcash/services/auth_service.dart';
-import 'package:jstockcash/services/user_service.dart';
+import '../../models/profil.dart';
+import '../../models/userModel.dart';
+import '../../page/authentification/connection.dart';
+import '../../page/user/user_profil.dart';
+import '../../services/auth_service.dart';
+import '../../services/user_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sweetalert/sweetalert.dart';
 

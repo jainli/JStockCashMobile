@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:jstockcash/page/widget/api.dart';
+import '../../page/widget/api.dart';
 
 
 class CheckoutService {

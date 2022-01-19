@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:jstockcash/page/widget/api.dart';
-import 'package:jstockcash/models/product.dart';
+import '../../page/widget/api.dart';
+import '../../models/product.dart';
 
 class ProductService {
 

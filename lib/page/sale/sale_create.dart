@@ -1,26 +1,28 @@
 import 'dart:convert';
 
-import 'package:jstockcash/models/sale.dart';
-import 'package:jstockcash/page/authentification/connection.dart';
-import 'package:jstockcash/page/home/home.dart';
-import 'package:jstockcash/page/widget/navigatorDrawer.dart';
-import 'package:jstockcash/services/auth_service.dart';
+import '../../models/sale.dart';
+import '../../page/authentification/connection.dart';
+import '../../page/home/home.dart';
+import '../../page/widget/navigatorDrawer.dart';
+import '../../services/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sweetalert/sweetalert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:jstockcash/services/product_service.dart';
-import 'package:jstockcash/services/product_damaged_service.dart';
+import '../../services/product_service.dart';
+import '../../services/product_damaged_service.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:editable/editable.dart';
-import 'package:jstockcash/services/customer_service.dart';
-import 'package:jstockcash/models/CustomerModel.dart';
-import 'package:jstockcash/services/sale_service.dart';
-import 'package:jstockcash/models/command_sale.dart';
-import 'package:jstockcash/services/command_sale_service.dart';
-import 'package:jstockcash/services/paiement_service.dart';
-import 'package:jstockcash/models/paiement.dart';
+import '../../services/customer_service.dart';
+import '../../models/CustomerModel.dart';
+import '../../services/sale_service.dart';
+import '../../models/command_sale.dart';
+import '../../services/command_sale_service.dart';
+import '../../services/paiement_service.dart';
+import '../../models/paiement.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 
 class SaleCreate extends StatefulWidget {
@@ -70,9 +72,9 @@ class _SaleCreateState extends State<SaleCreate> {
 
 
   List headers = [
-  {"title":'Nom prduit', 'index': 2, 'key':'nom'},
-  {"title":'Pu', 'index': 3, 'key':'pu'},
-  {"title":'Qté', 'index': 4, 'key':'qte'},
+  {"title":'Nom prduit', 'index': 1, 'key':'nom'},
+  {"title":'Pu', 'index': 2, 'key':'pu'},
+  {"title":'Qté', 'index': 3, 'key':'qte'},
   {"title":'Prix total', 'index': 4, 'key':'prixTotal'},
   ];
 
@@ -161,7 +163,48 @@ class _SaleCreateState extends State<SaleCreate> {
 
   }
 
-  Future<void> _operationsProduct() async {
+
+  Future<void> scanBarcodeNormal() async {
+    String barcodeScanRes;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
+
+    } on PlatformException {
+
+      barcodeScanRes = 'Failed to get platform version.';
+
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() async {
+
+      if( _isNumeric(barcodeScanRes)) {
+
+        _operationsProduct(barcodeScanRes);
+
+      } else {
+
+        SweetAlert.show(
+            context,
+            title: "Error Error",
+            subtitle: "Le code barre doit être constitué uniquement des chiffres",
+            style: SweetAlertStyle.error
+        );
+
+      }
+
+
+    });
+  }
+
+  Future<void> _operationsProduct(barcode) async {
 
     SharedPreferences localStorage = await SharedPreferences.getInstance();
 
@@ -170,13 +213,14 @@ class _SaleCreateState extends State<SaleCreate> {
 
     if(res == true) {
 
-      if (barCodeControlller.text.length >= 12) {
-        if (barCodeControlller.text.length == 12 ||
-            barCodeControlller.text.length == 13) {
-          final product = await productService.fetchProductByBarCode(
-              barCodeControlller.text);
+      if (barcode.length >= 12) {
+
+        if (barcode.length == 12 || barcode.length == 13) {
+
+          final product = await productService.fetchProductByBarCode(barcode);
 
           if (product == null) {
+
             Fluttertoast.showToast(
                 msg: "Produit introuvable",
                 toastLength: Toast.LENGTH_SHORT,
@@ -186,7 +230,9 @@ class _SaleCreateState extends State<SaleCreate> {
                 textColor: Colors.white,
                 fontSize: 16.0
             );
+
           } else {
+
             setState(() {
               _rows.add({
                 "nom": product.product_title,
@@ -225,20 +271,24 @@ class _SaleCreateState extends State<SaleCreate> {
             });
           }
         } else {
+
           final product_damaged = await productDamagedService
-              .fetchProductDamagedAccordingBarCode(barCodeControlller.text);
+              .fetchProductDamagedAccordingBarCode(barcode);
 
           if (product_damaged == null) {
+
             Fluttertoast.showToast(
                 msg: "Produit introuvable",
                 toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.CENTER,
+                gravity: ToastGravity.TOP_LEFT,
                 timeInSecForIosWeb: 1,
                 backgroundColor: Colors.red,
                 textColor: Colors.white,
                 fontSize: 16.0
             );
+
           } else {
+
             setState(() {
               _rows.add({
                 "nom": product_damaged.product_damaged_title,
@@ -281,8 +331,19 @@ class _SaleCreateState extends State<SaleCreate> {
           }
         }
       }
+
       else {
-        print("Erreur");
+
+        Fluttertoast.showToast(
+            msg: "La taille du code barre est incorrecte",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+
       }
 
     } else {
@@ -299,6 +360,7 @@ class _SaleCreateState extends State<SaleCreate> {
     }
 
   }
+
 
   bool _isNumeric(String result) {
     if (result == null) {
@@ -713,7 +775,7 @@ class _SaleCreateState extends State<SaleCreate> {
 
     if(sale_reductionController.text.isEmpty) {
 
-      reduction = 0;
+      reduction = double.parse(0.toString());
 
     } else {
 
@@ -723,7 +785,7 @@ class _SaleCreateState extends State<SaleCreate> {
 
     if(sale_augmentationController.text.isEmpty) {
 
-      augmentation = 0;
+      augmentation = double.parse(0.toString());
 
     } else {
 
@@ -998,9 +1060,10 @@ class _SaleCreateState extends State<SaleCreate> {
                  ],
                ),
                const SizedBox(
-                 height: 35,
+                 height: 50,
                ),
                Row(
+                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                  children: <Widget>[
                    Expanded(
                        child: SizedBox(
@@ -1012,21 +1075,37 @@ class _SaleCreateState extends State<SaleCreate> {
                              FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
                            ],
                            decoration: const InputDecoration(
-                               border: OutlineInputBorder(),
-                               labelText: 'Code barre du produit',
+                             border: OutlineInputBorder(),
+                             labelText: 'Code barre du produit',
 
                            ),
                            onChanged: (text) {
-                             _operationsProduct();
+                             _operationsProduct(barCodeControlller.text);
                            },
-                           style: TextStyle(
-                             fontSize: 25,
-                             height: 1.5
+                           style: const TextStyle(
+                               fontSize: 25,
+                               height: 1.5
                            ),
                          ),
                        )
-                   )
+                   ),
+                   const SizedBox(width: 60),
+                   Container(
+                     alignment: Alignment.centerRight,
+                     child: InkWell(
+                       onTap: scanBarcodeNormal,
+                       child: const Icon(
+                         Icons.add_a_photo_outlined,
+                         color: Colors.deepOrangeAccent,
+                         size: 50,
+                       ),
+                     ),
+                   ),
+
                  ],
+               ),
+               const SizedBox(
+                 height: 30,
                ),
                Row(
                  children: <Widget>[
@@ -1048,6 +1127,9 @@ class _SaleCreateState extends State<SaleCreate> {
                        )
                    )
                  ],
+               ),
+               const SizedBox(
+                 height: 50,
                ),
                Row(
                  children: <Widget>[
@@ -1077,6 +1159,9 @@ class _SaleCreateState extends State<SaleCreate> {
                      ),
                    ))
                  ],
+               ),
+               const SizedBox(
+                 height: 30,
                ),
                Row(
                  children: <Widget>[
@@ -1284,3 +1369,97 @@ class _SaleCreateState extends State<SaleCreate> {
   }
 }
 
+
+/*
+class SaleCreate extends StatefulWidget {
+  const SaleCreate({Key? key}) : super(key: key);
+
+  @override
+  _SaleCreateState createState() => _SaleCreateState();
+}
+
+class _SaleCreateState extends State<SaleCreate> {
+  String _scanBarcode = 'Unknown';
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> startBarcodeScanStream() async {
+    FlutterBarcodeScanner.getBarcodeStreamReceiver(
+        '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
+        .listen((barcode) => print(barcode));
+  }
+
+  Future<void> scanQR() async {
+    String barcodeScanRes;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Cancel', true, ScanMode.QR);
+      print(barcodeScanRes);
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _scanBarcode = barcodeScanRes;
+    });
+  }
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> scanBarcodeNormal() async {
+    String barcodeScanRes;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
+      print(barcodeScanRes);
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _scanBarcode = barcodeScanRes;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        home: Scaffold(
+            appBar: AppBar(title: const Text('Barcode scan')),
+            body: Builder(builder: (BuildContext context) {
+              return Container(
+                  alignment: Alignment.center,
+                  child: Flex(
+                      direction: Axis.vertical,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        ElevatedButton(
+                            onPressed: () => scanBarcodeNormal(),
+                            child: Text('Start barcode scan')),
+                        ElevatedButton(
+                            onPressed: () => scanQR(),
+                            child: Text('Start QR scan')),
+                        ElevatedButton(
+                            onPressed: () => startBarcodeScanStream(),
+                            child: Text('Start barcode scan stream')),
+                        Text('Scan result : $_scanBarcode\n',
+                            style: TextStyle(fontSize: 20))
+                      ]));
+            })));
+  }
+}
+*/

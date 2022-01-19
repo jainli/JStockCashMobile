@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:jstockcash/models/userModel.dart';
-import 'package:jstockcash/page/widget/api.dart';
+import '../../models/userModel.dart';
+import '../../page/widget/api.dart';
 
 
 class UserService {

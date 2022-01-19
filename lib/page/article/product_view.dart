@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jstockcash/models/product.dart';
-import 'package:jstockcash/page/widget/navigatorDrawer.dart';
-import 'package:jstockcash/services/product_service.dart';
+import '../../models/product.dart';
+import '../../page/widget/navigatorDrawer.dart';
+import '../../services/product_service.dart';
 
 
 class ProductView extends StatefulWidget {
@@ -70,7 +70,14 @@ class _ProductViewState extends State<ProductView> {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Text(
+              const Image(
+                image: AssetImage("images/defautImage.png"),
+                height: 200,
+              ),
+              Padding(
+                padding: EdgeInsets.all(20),
+              ),
+              SelectableText(
                 "Titre : ${widget.product.product_title}",
                 style: TextStyle(fontSize: 20,),
               ),
@@ -84,7 +91,7 @@ class _ProductViewState extends State<ProductView> {
               Padding(
                 padding: EdgeInsets.all(5),
               ),
-              Text(
+              SelectableText(
                 "Code barre : ${widget.product.product_bar_code}",
                 style: TextStyle(fontSize: 20),
               ),
@@ -212,7 +219,7 @@ class _ProductViewState extends State<ProductView> {
       ),
 
        */
-      drawer: Drawers(),/*
+      /*
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.edit),
           onPressed: () => Navigator.of(context).pushNamed(''),

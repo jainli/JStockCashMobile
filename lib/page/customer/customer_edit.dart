@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:jstockcash/models/CustomerModel.dart';
-import 'package:jstockcash/page/authentification/connection.dart';
-import 'package:jstockcash/services/auth_service.dart';
-import 'package:jstockcash/services/customer_service.dart';
+import '../../models/CustomerModel.dart';
+import '../../page/authentification/connection.dart';
+import '../../services/auth_service.dart';
+import '../../services/customer_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sweetalert/sweetalert.dart';
 

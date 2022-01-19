@@ -3,8 +3,8 @@ import 'dart:core';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:jstockcash/page/authentification/passwordforget.dart';
-import 'package:jstockcash/page/widget/customTextField.dart';
+import '../../page/authentification/passwordforget.dart';
+import '../../page/widget/customTextField.dart';
 
 
 class PasswordForget extends StatefulWidget {

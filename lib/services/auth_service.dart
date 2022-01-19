@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:jstockcash/models/userModel.dart';
-import 'package:jstockcash/page/widget/api.dart';
+import '../../models/userModel.dart';
+import '../../page/widget/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 

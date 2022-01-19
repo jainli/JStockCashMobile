@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:jstockcash/page/widget/api.dart';
-import 'package:jstockcash/models/paiement.dart';
+import '../../page/widget/api.dart';
+import '../../models/paiement.dart';
 
 
 class PaiementService {

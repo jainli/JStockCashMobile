@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jstockcash/models/checkout.dart';
-import 'package:jstockcash/page/authentification/connection.dart';
-import 'package:jstockcash/page/widget/navigatorDrawer.dart';
-import 'package:jstockcash/services/auth_service.dart';
-import 'package:jstockcash/services/checkout_service.dart';
+import '../../models/checkout.dart';
+import '../../page/authentification/connection.dart';
+import '../../page/widget/navigatorDrawer.dart';
+import '../../services/auth_service.dart';
+import '../../services/checkout_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -127,75 +127,75 @@ class _CheckoutShowState extends State<CheckoutShow> {
         title: const Text('Somme Totale Encaissé', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
         centerTitle: true,
       ),
-      body: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            Positioned(
-              top: 0,
-              child: Container(
-                color: Color(0xFF007AC3),
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * .35,
-              ),
-            ),
-            Positioned(
-              top: MediaQuery.of(context).size.height * .25,
-              left: 15,
-              right: 15,
-              child: Card(
-                elevation: 8,
-                color: Colors.white,
-                shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                child: Container(
-                  width: MediaQuery.of(context).size.height * .90,
-                  height: 220,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          const Icon(
-                            Icons.money_rounded,
-                            color: Colors.deepOrangeAccent,
-                            size: 45,
-                          ),
-                          const Text("Encaissement journalier"),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Text(_amountCheckoutToday ?? 'Loading...', style: const TextStyle(fontSize: 20)),
-                        ],
-                      ),
-                      Container(
-                        height: 100,
-                        width: 2,
-                        color: Colors.deepPurple,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          const Icon(
-                            Icons.monetization_on,
-                            color: Colors.deepOrangeAccent,
-                            size: 45,
-                          ),
-                          const Text("Somme total encaissé"),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Text(_amountCheckout ?? 'Loading...', style: const TextStyle(fontSize: 20)),
-                        ],
-                      )
+     body:  Stack(
+       children: [
+         Container(height: 1000),
+         Positioned(
+           top: 0,
+           child: Container(
+             color: Color(0xFF007AC3),
+             width: MediaQuery.of(context).size.width,
+             height: MediaQuery.of(context).size.height * .35,
+           ),
+         ),
+         Positioned(
+           top: MediaQuery.of(context).size.height * .25,
+           left: 15,
+           right: 15,
+           child: Card(
+             elevation: 8,
+             color: Colors.white,
+             shape:
+             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+             child: Container(
+               width: MediaQuery.of(context).size.height * .90,
+               height: 220,
+               child: Row(
+                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                 children: <Widget>[
+                   Column(
+                     mainAxisAlignment: MainAxisAlignment.center,
+                     children: <Widget>[
+                       const Icon(
+                         Icons.money_rounded,
+                         color: Colors.deepOrangeAccent,
+                         size: 45,
+                       ),
+                       const Text("Encaissement journalier"),
+                       const SizedBox(
+                         height: 20,
+                       ),
+                       Text(_amountCheckoutToday ?? 'Loading...', style: const TextStyle(fontSize: 20)),
+                     ],
+                   ),
+                   Container(
+                     height: 100,
+                     width: 2,
+                     color: Colors.deepPurple,
+                   ),
+                   Column(
+                     mainAxisAlignment: MainAxisAlignment.center,
+                     children: <Widget>[
+                       const Icon(
+                         Icons.monetization_on,
+                         color: Colors.deepOrangeAccent,
+                         size: 45,
+                       ),
+                       const Text("Somme total encaissé"),
+                       const SizedBox(
+                         height: 20,
+                       ),
+                       Text(_amountCheckout ?? 'Loading...', style: const TextStyle(fontSize: 20)),
+                     ],
+                   )
 
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-      ),
+                 ],
+               ),
+             ),
+           ),
+         ),
+       ],
+     ),
       drawer: Drawers(),
     );
   }

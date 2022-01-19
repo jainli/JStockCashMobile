@@ -1,7 +1,5 @@
 // ignore: file_names
-import 'dart:convert';
-import 'package:jstockcash/models/profil.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../../models/profil.dart';
 
 class UserModel {
 

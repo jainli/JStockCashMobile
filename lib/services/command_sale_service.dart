@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:jstockcash/page/widget/api.dart';
-import 'package:jstockcash/models/command_sale.dart';
+import '../../page/widget/api.dart';
+import '../../models/command_sale.dart';
 
 
 class CommandSaleService {

@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:jstockcash/page/widget/environnement.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
 class CallApi {
 
-  //final String _url = 'http://localhost:8000/api/';
-  final String _url = 'https://apitest.jstockcash.com/api/';
+  final String _url = Environnement.URL_PREFIX;
 
   connection(data, apiUrl) async {
     var fullUrl = _url + apiUrl;

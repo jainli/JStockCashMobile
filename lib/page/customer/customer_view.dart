@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:jstockcash/models/CustomerModel.dart';
-import 'package:jstockcash/page/customer/customer_edit.dart';
-import 'package:jstockcash/page/customer/customer_list.dart';
-import 'package:jstockcash/services/customer_service.dart';
+import '../../models/CustomerModel.dart';
+import '../../page/customer/customer_edit.dart';
+import '../../page/customer/customer_list.dart';
+import '../../services/customer_service.dart';
 
 
 class CustomerView extends StatefulWidget {

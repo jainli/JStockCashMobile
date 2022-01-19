@@ -1,4 +1,4 @@
-import 'package:jstockcash/models/CustomerModel.dart';
+import '../../models/CustomerModel.dart';
 
 class Sale {
 
@@ -33,12 +33,12 @@ class Sale {
   Sale.fromJson(Map<String, dynamic> json):
         id = json['id'],
         sale_number = json['sale_number'],
-        sale_reduction = json['sale_reduction'],
-        sale_augmentation = json['sale_augmentation'],
-        sale_total_amount = json['sale_total_amount'],
-        sale_amount_has_paid = json['sale_amount_has_paid'],
-        sale_amount_paid = json['sale_amount_paid'],
-        sale_amount_returned = json['sale_amount_returned'],
+        sale_reduction = double.parse(json['sale_reduction'].toString()),
+        sale_augmentation = double.parse(json['sale_augmentation'].toString()),
+        sale_total_amount = double.parse(json['sale_total_amount'].toString()),
+        sale_amount_has_paid = double.parse(json['sale_amount_has_paid'].toString()),
+        sale_amount_paid = double.parse(json['sale_amount_paid'].toString()),
+        sale_amount_returned = double.parse(json['sale_amount_returned'].toString()),
         customer = Customer.fromJson(json),
         site_id = json['site_id'],
         checkout_id = json['checkout_id'],

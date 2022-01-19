@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:jstockcash/models/userModel.dart';
-import 'package:jstockcash/page/user/user_edit.dart';
-import 'package:jstockcash/page/widget/navigatorDrawer.dart';
-import 'package:jstockcash/services/auth_service.dart';
+import '../../models/userModel.dart';
+import '../../page/user/user_edit.dart';
+import '../../page/widget/navigatorDrawer.dart';
+import '../../services/auth_service.dart';
 import 'package:sweetalert/sweetalert.dart';
-import 'package:jstockcash/page/authentification/connection.dart';
+import '../../page/authentification/connection.dart';
 
 
 class Userprofil extends StatefulWidget {

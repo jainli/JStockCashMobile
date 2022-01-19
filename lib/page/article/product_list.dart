@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:jstockcash/page/authentification/connection.dart';
-import 'package:jstockcash/page/widget/navigatorDrawer.dart';
-import 'package:jstockcash/services/auth_service.dart';
-import 'dart:convert';
-import 'package:jstockcash/services/product_service.dart';
-import 'package:jstockcash/models/product.dart';
-import 'package:jstockcash/page/article/product_view.dart';
+import '../../page/authentification/connection.dart';
+import '../../page/widget/navigatorDrawer.dart';
+import '../../services/auth_service.dart';
+import '../../services/product_service.dart';
+import '../../models/product.dart';
+import '../../page/article/product_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -133,8 +132,8 @@ class _ProductListState extends State<ProductList> {
                       margin: const EdgeInsets.symmetric(vertical: 5),
                       child: ListTile(
                         leading: Icon(Icons.category_outlined),
-                        trailing: Text(_foundProducts[index].product_bar_code, style: TextStyle(fontSize: 15),),
-                        title: Text(
+                        trailing: SelectableText(_foundProducts[index].product_bar_code, style: TextStyle(fontSize: 15)),
+                        title: SelectableText(
                           _foundProducts[index].product_title,
                           style: TextStyle(fontSize: 20),
                         ),
