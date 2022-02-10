@@ -349,7 +349,8 @@ class _LoginState extends State<Login> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             const Image(
-                              image: AssetImage("images/logo_noir.png"),
+                              //image: AssetImage("images/logo_noir.png"),
+                              image: AssetImage("images/PMALCHIC.png"),
                               height: 90,
                               width: 800,
                             ),
@@ -384,8 +385,8 @@ class _LoginState extends State<Login> {
                                   color: Colors.red),*/
                             ),
                             _buildSignInWithText(),
-                            _buildSocialBtnRow(),
-                            _buildSingupBtn()
+                            //_buildSocialBtnRow(),
+                            //_buildSingupBtn()
                           ],
                         ),
                       ),
@@ -435,6 +436,8 @@ class _LoginState extends State<Login> {
                   prefs.setBool("isLoggedIn", true);
 
                   prefs.setString('user', json.encode(e['user']));
+
+                  prefs.setString('entreprise', json.encode(e['entreprise']));
 
                   prefs.setString('expires_in', _expiryDate.toIso8601String());
 

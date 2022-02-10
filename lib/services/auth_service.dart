@@ -49,6 +49,8 @@ class AuthService {
 
         p.setString('user', null.toString());
 
+        p.setString('entreprise', null.toString());
+
         p.setString('expires_in', null.toString());
 
         p.setString('token_type', null.toString());
@@ -60,6 +62,20 @@ class AuthService {
         return true;
 
       } else {
+
+        p.setBool("isLoggedIn", false);
+
+        p.setString('user', null.toString());
+
+        p.setString('entreprise', null.toString());
+
+        p.setString('expires_in', null.toString());
+
+        p.setString('token_type', null.toString());
+
+        p.setString('access_token', null.toString());
+
+        p.setString('refresh_token', null.toString());
 
         return false;
 
@@ -113,7 +129,7 @@ class AuthService {
 
       p.setString('access_token', jsonDecode(response.body)['access_token']);
 
-      p.setString('refresh_token', jsonDecode(response.body)['refresh_token']);
+      //p.setString('refresh_token', jsonDecode(response.body)['refresh_token']);
 
       return true;
 

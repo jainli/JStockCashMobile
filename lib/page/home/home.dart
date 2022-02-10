@@ -12,6 +12,7 @@ import '../../services/auth_service.dart';
 import 'package:sweetalert/sweetalert.dart';
 
 
+
 class Home extends StatefulWidget {
 
   Home({
@@ -33,6 +34,7 @@ Widget build(BuildContext context) {
 class _HomeState extends State<Home> {
 
   AuthService authService = AuthService();
+
 
   void initState() {
     // TODO: implement initState
@@ -63,6 +65,13 @@ class _HomeState extends State<Home> {
             title: "Erreur Erreur",
             subtitle: "Impossible de se déconnecter",
             style: SweetAlertStyle.error
+        );
+
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Login()
+            )
         );
 
       }
@@ -101,7 +110,8 @@ class _HomeState extends State<Home> {
             children: [
               const SizedBox(height: 5.0,),
               const Image(
-                image: AssetImage("images/logo_noir.png"),
+                image: AssetImage("images/PMALCHIC.png"),
+                //image: AssetImage("images/logo_noir.png"),
                 //height: 50,
                 //fit: BoxFit.fitHeight,
               ),

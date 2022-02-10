@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jstockcash/page/widget/environnement.dart';
 import '../../models/product.dart';
 import '../../page/widget/navigatorDrawer.dart';
 import '../../services/product_service.dart';
@@ -18,6 +19,26 @@ class ProductView extends StatefulWidget {
 class _ProductViewState extends State<ProductView> {
 
   final ProductService service = ProductService();
+
+  final String _urlImage = Environnement.URL_PREFIX_IMAGE;
+
+  bool _log = true;
+
+
+  @override
+  void initState() {
+    super.initState();
+
+    if(widget.product.product_image.toString() == null.toString()) {
+
+      setState(() {
+
+        _log = false;
+
+      });
+
+    }
+  }
 
   /*
   void deleteProduct(context) async {
@@ -70,10 +91,23 @@ class _ProductViewState extends State<ProductView> {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              const Image(
-                image: AssetImage("images/defautImage.png"),
+              _log
+                  ? ClipOval(
+                child: Image.network(
+                  _urlImage+'/${widget.product.product_image}',
+                  errorBuilder: (context, exception, stackTrack) => Icon(Icons.error,),
+                  loadingBuilder: (context, exception, stackTrack) => CircularProgressIndicator(strokeWidth: 3.5,),
+                  height: 200,
+                ),
+              )
+                  : const Image(
+                image:   AssetImage("images/defautImage.png"),
                 height: 200,
               ),
+              /*const Image(
+                image: AssetImage("images/defautImage.png"),
+                height: 200,
+              ),*/
               Padding(
                 padding: EdgeInsets.all(20),
               ),

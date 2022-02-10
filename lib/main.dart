@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:jstockcash/page/splash_screen/splash_screen.dart';
 import '../../page/authentification/connection.dart';
 import '../../page/home/home.dart';
 import 'package:flutter/services.dart';

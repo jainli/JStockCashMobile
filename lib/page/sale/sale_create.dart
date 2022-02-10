@@ -21,8 +21,8 @@ import '../../models/command_sale.dart';
 import '../../services/command_sale_service.dart';
 import '../../services/paiement_service.dart';
 import '../../models/paiement.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import '../../page/pdf/ticket.dart';
 
 
 class SaleCreate extends StatefulWidget {
@@ -42,6 +42,7 @@ class _SaleCreateState extends State<SaleCreate> {
   final CommandSaleService commandSaleService =  CommandSaleService();
   final PaiementService paiementService = PaiementService();
   final AuthService authService = AuthService();
+  final Ticket ticket = Ticket();
 
 
 
@@ -116,6 +117,8 @@ class _SaleCreateState extends State<SaleCreate> {
 
     _loadList();
 
+    //ticket.headerAndFooter();
+
   }
 
   Future shared() async {
@@ -162,7 +165,6 @@ class _SaleCreateState extends State<SaleCreate> {
     }
 
   }
-
 
   Future<void> scanBarcodeNormal() async {
     String barcodeScanRes;
@@ -361,7 +363,6 @@ class _SaleCreateState extends State<SaleCreate> {
 
   }
 
-
   bool _isNumeric(String result) {
     if (result == null) {
       return false;
@@ -441,8 +442,10 @@ class _SaleCreateState extends State<SaleCreate> {
 
   Future<void> _operationAmount(amount, String objet) async {
 
+    // On vérifié si le montant saisi est de type numerique
     if(_isNumeric(amount)) {
 
+      // On vérifier si l'utilisateur a ajouté des produits
       if(this._amountHasPaie == 0) {
 
         SweetAlert.show(
@@ -458,8 +461,10 @@ class _SaleCreateState extends State<SaleCreate> {
 
       } else {
 
+        // On vérifier si l'utilisateur a déjà ajouter un montant
         if(_amountPaie == 0) {
 
+          //On vérifier si le montant versé est inférieur au montant à payer
           if(_amountPaie < _amountHasPaie) {
 
             _amountPaie = 0;
@@ -644,13 +649,51 @@ class _SaleCreateState extends State<SaleCreate> {
 
     } else {
 
+      // Lorsque le montant n'est pas de type numérique on
+      //executé ses differents conditions.
+
+      if(objet == "espece") {
+
+        especeAmountController.clear();
+        amountReturnedController.text = 0.toString();
+
+      } else if(objet == "carte") {
+
+        carteAmountController.clear();
+
+      } else if(objet == "mobile") {
+
+        mobileAmountController.clear();
+
+      } else {
+
+        especeAmountController.clear();
+        carteAmountController.clear();
+        mobileAmountController.clear();
+        amountReturnedController.text = 0.toString();
+
+      }
+
+      setState(() {
+
+        _amountRest = _amountHasPaie;
+        _amountPaie = 0;
+
+      });
+
+
       print("Erreur");
 
     }
 
     if(_amountPaie == 0) {
 
-      _amountRest = _amountHasPaie;
+      setState(() {
+
+        _amountRest = _amountHasPaie;
+
+      });
+
 
     }
 
@@ -797,6 +840,7 @@ class _SaleCreateState extends State<SaleCreate> {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
 
     var expires_in = localStorage.getString('expires_in');
+
     var res = await authService.autoLogout(DateTime.parse(expires_in!));
 
     if(res == true) {
@@ -804,6 +848,12 @@ class _SaleCreateState extends State<SaleCreate> {
       var new_sale;
 
       Customer cust = Customer(id: _customerSelect);
+
+      if(amountReturnedController.text.isEmpty) {
+
+        amountReturnedController.text =  0.toString();
+
+      }
 
       new_sale = saleService.createSale(
           Sale(sale_reduction: reduction,
@@ -889,6 +939,22 @@ class _SaleCreateState extends State<SaleCreate> {
         });*/
         }
 
+        if(localStorage.getString('entreprise') == null.toString()) {
+
+          SweetAlert.show(
+              context,
+              title: "Error Ticket",
+              subtitle: "Impossible de générer le ticket car les informations de l'entreprise sont marquantes",
+              style: SweetAlertStyle.error
+          );
+
+        } else {
+
+          ticket.generateInvoice(_products, jsonDecode(localStorage.getString('entreprise')!) as Map,
+              sale['sale'], user['checkout_number']);
+
+        }
+
         setState(() {
           sale_reductionController.clear();
           sale_augmentationController.clear();
@@ -919,6 +985,7 @@ class _SaleCreateState extends State<SaleCreate> {
               subtitle: "Les informations de la vente ont été bien enregistré",
               style: SweetAlertStyle.success
           );
+
         });
       });
 
@@ -1143,14 +1210,14 @@ class _SaleCreateState extends State<SaleCreate> {
                                Flexible(
                                    child: Column(children: [
                                      Text('Montant Total', style: TextStyle(fontSize: 20),),
-                                     Text(_totalAmount.toString(), style: TextStyle(fontSize: 15),)
+                                     SelectableText(_totalAmount.toString(), style: const TextStyle(fontSize: 15)),
                                    ],)
                                ),
                                SizedBox(width: 20.0,),
                                Flexible(
                                    child: Column(children: [
                                      Text('Montant à payer', style: TextStyle(fontSize: 20),),
-                                     Text(_amountHasPaie.toString(), style: TextStyle(fontSize: 15),)
+                                     SelectableText(_amountHasPaie.toString(), style: const TextStyle(fontSize: 15)),
                                    ],)
                                ),
                              ],

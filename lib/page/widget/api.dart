@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:jstockcash/page/widget/environnement.dart';
+import '../../page/widget/environnement.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 

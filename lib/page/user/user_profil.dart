@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jstockcash/page/widget/environnement.dart';
 import '../../models/userModel.dart';
 import '../../page/user/user_edit.dart';
 import '../../page/widget/navigatorDrawer.dart';
@@ -23,9 +24,24 @@ class _UserprofilState extends State<Userprofil> {
 
   AuthService authService = AuthService();
 
+  final String _urlImage = Environnement.URL_PREFIX_IMAGE;
+
+  bool _log = true;
+
+
   @override
   void initState() {
     super.initState();
+
+    if(widget.user!['user_image_user'].toString() == null.toString()) {
+
+      setState(() {
+
+        _log = false;
+
+      });
+
+    }
   }
 
   void logout() {
@@ -101,16 +117,19 @@ class _UserprofilState extends State<Userprofil> {
                   padding: EdgeInsets.all(5),
 
                   width: double.infinity,
-                  // child: ListView(
-                  //   scrollDirection: Axis.horizontal,
-                  //   shrinkWrap: true,
-                  // ),
                 ),
               ),
-              const Image(
-                image: AssetImage("images/users.png"),
-                height: 200,
-              ),
+              _log
+                  ? ClipOval(
+                      child: Image.network(
+                        _urlImage+'/${widget.user!['user_image_user']}',
+                        height: 200,
+                      ),
+                    )
+                  : const Image(
+                      image:   AssetImage("images/users.png"),
+                      height: 200,
+                    ),
               Padding(
                 padding: EdgeInsets.all(5),
               ),

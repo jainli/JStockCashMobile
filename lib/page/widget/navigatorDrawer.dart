@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:footer/footer_view.dart';
 import '../../page/article/product_list.dart';
 import '../../page/authentification/connection.dart';
 import '../../page/checkout/checkout_show.dart';
@@ -11,10 +10,9 @@ import '../../page/user/user_profil.dart';
 import '../../page/sale/sale_create.dart';
 import '../../page/sale/sale_list.dart';
 import '../../services/auth_service.dart';
+import '../../page/widget/environnement.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sweetalert/sweetalert.dart';
-import 'package:footer/footer.dart';
-
 
 
 class Drawers extends StatefulWidget {
@@ -25,13 +23,17 @@ class Drawers extends StatefulWidget {
 
 class _DrawerState extends State<Drawers> {
 
+  final String _urlImage = Environnement.URL_PREFIX_IMAGE;
+
   AuthService authService = AuthService();
 
   var user;
 
+  bool _log = true;
+
   @override
   void initState() {
-
+    super.initState();
     user = {};
 
     // TODO: implement initState
@@ -39,6 +41,17 @@ class _DrawerState extends State<Drawers> {
     shared().then((value) {
       setState(() {
         user = value;
+
+        if(user['user_image_user'].toString() == null.toString()) {
+
+          setState(() {
+
+            _log = false;
+
+          });
+
+        }
+
       });
     });
   }
@@ -50,7 +63,7 @@ class _DrawerState extends State<Drawers> {
     final userF = jsonDecode(u!) as Map;
 
     return userF;
-    //print(user);
+
   }
 
   void logout() {
@@ -79,6 +92,13 @@ class _DrawerState extends State<Drawers> {
             style: SweetAlertStyle.error
         );
 
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Login()
+            )
+        );
+
       }
     });
 
@@ -91,17 +111,29 @@ class _DrawerState extends State<Drawers> {
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(144),
             child:  UserAccountsDrawerHeader(
-              accountName:  Text('${user['user_name']}'+' '+'${user['user_surname']}'),
-              accountEmail: Text('${user!['user_email']}'
+              accountName:  Text(
+                '${user['user_name']}'+' '+'${user['user_surname']}',
+                style: TextStyle(color: Colors.white),
+              ),
+              accountEmail: Text(
+                '${user!['user_email']}',
+                style: TextStyle(color: Colors.white),
               ),
               currentAccountPicture: CircleAvatar(
                   child: ClipOval(
-                    child: Image.network(
-                      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80',
-                      width: 90,
-                      height: 90,
-                      fit: BoxFit.cover,
-                    ),
+                    child: _log
+                        ? Image.network(
+                          _urlImage+'/${user!['user_image_user']}',
+                          width: 90,
+                          height: 90,
+                          fit: BoxFit.cover,
+                        )
+                        : Image.network(
+                          'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80',
+                          width: 90,
+                          height: 90,
+                          fit: BoxFit.cover,
+                        )
                   )),
               decoration: const BoxDecoration(
                 color: Colors.blue,
