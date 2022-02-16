@@ -21,7 +21,7 @@ class _CustomerViewState extends State<CustomerView> {
 
   void deleteCustomer(context) async {
 
-    await customerService.deleteCustomer(widget.customer.id!);
+    await customerService.deleteCustomer(int.parse(widget.customer.id!));
 
     Navigator.push(
         context,

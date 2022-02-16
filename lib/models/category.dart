@@ -13,7 +13,7 @@ class Category extends Table {
       );
 
   Category.fromJson(Map<String, dynamic> json):
-        id = json['id'],
+        id = int.parse(json['id'].toString()),
         category_title = json['category_title'],
         category_description = json['category_description'];
 

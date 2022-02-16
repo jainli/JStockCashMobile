@@ -847,7 +847,7 @@ class _SaleCreateState extends State<SaleCreate> {
 
       var new_sale;
 
-      Customer cust = Customer(id: _customerSelect);
+      Customer cust = Customer(id: _customerSelect.toString());
 
       if(amountReturnedController.text.isEmpty) {
 
@@ -858,13 +858,13 @@ class _SaleCreateState extends State<SaleCreate> {
       new_sale = saleService.createSale(
           Sale(sale_reduction: reduction,
               sale_augmentation: augmentation,
-              sale_total_amount: _totalAmount,
-              sale_amount_has_paid: _amountHasPaie,
-              sale_amount_paid: _amountPaie,
+              sale_total_amount: double.parse(_totalAmount.toString()),
+              sale_amount_has_paid: double.parse(_amountHasPaie.toString()),
+              sale_amount_paid: double.parse(_amountPaie.toString()),
               sale_amount_returned: double.parse(amountReturnedController.text),
-              site_id: user['site_id'],
-              checkout_id: user['checkout_id'],
-              user_id: user['id'],
+              site_id: int.parse(user['site_id']),
+              checkout_id: int.parse(user['checkout_id']),
+              user_id: int.parse(user['id']),
               customer: cust));
 
       new_sale.then((sale) {
@@ -881,15 +881,15 @@ class _SaleCreateState extends State<SaleCreate> {
             message = commandSaleService.createCommandSale(CommandSale(
               quantity_sold: int.parse(_products[i]['qte']),
               selling_price: double.parse(_products[i]['pu']),
-              sale_id: sale['sale']['id'],
-              product_id: _products[i]['id'],
+              sale_id: int.parse(sale['sale']['id'].toString()),
+              product_id: int.parse(_products[i]['id'].toString()),
             ));
           } else {
             message = commandSaleService.createCommandSale(CommandSale(
                 quantity_sold: int.parse(_products[i]['qte']),
                 selling_price: double.parse(_products[i]['pu']),
-                sale_id: sale['sale']['id'],
-                product_damaged_id: _products[i]['id']
+                sale_id: int.parse(sale['sale']['id'].toString()),
+                product_damaged_id: int.parse(_products[i]['id'].toString())
             ));
           }
 
@@ -907,8 +907,9 @@ class _SaleCreateState extends State<SaleCreate> {
           messagePaiement = paiementService.createPaiement(Paiement(
               means_payment: 'Espece',
               paiement_amount: double.parse(especeAmountController.text),
-              sale_id: sale['sale']['id'],
-              user_id: user['id']));
+              sale_id: int.parse(sale['sale']['id'].toString()),
+              user_id: int.parse(user['id'].toString())
+          ));
 
           /*messagePaiement.then((mes) {
           print(mes);
@@ -919,8 +920,9 @@ class _SaleCreateState extends State<SaleCreate> {
           messagePaiement = paiementService.createPaiement(Paiement(
               means_payment: 'Carte bancaire',
               paiement_amount: double.parse(carteAmountController.text),
-              sale_id: sale['sale']['id'],
-              user_id: user['id']));
+              sale_id: int.parse(sale['sale']['id'].toString()),
+              user_id: int.parse(user['id'].toString())
+          ));
 
           /*messagePaiement.then((mes) {
           print(mes);
@@ -931,8 +933,9 @@ class _SaleCreateState extends State<SaleCreate> {
           messagePaiement = paiementService.createPaiement(Paiement(
               means_payment: 'Mobile money',
               paiement_amount: double.parse(mobileAmountController.text),
-              sale_id: sale['sale']['id'],
-              user_id: user['id']));
+              sale_id: int.parse(sale['sale']['id']),
+              user_id: int.parse(user['id'].toString())
+          ));
 
           /*messagePaiement.then((mes) {
           print(mes);

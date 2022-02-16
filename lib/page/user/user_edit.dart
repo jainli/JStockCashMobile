@@ -389,10 +389,10 @@ class _UserEditState extends State<UserEdit> {
 
           _formKey.currentState!.save();
 
-          Profil profil = Profil(id: widget.user['user_profil']);
+          Profil profil = Profil(id: int.parse(widget.user['user_profil'].toString()));
 
-          var user = await userService.updateUser(UserModel(id: widget.user['id'], user_name: user_name.text, user_surname: user_surname.text,
-              user_tel_1: int.parse(user_tel_1.text), user_tel_2: user_tel_2.text, user_email: user_email.text,
+          var user = await userService.updateUser(UserModel(id: int.parse(widget.user['id'].toString()), user_name: user_name.text, user_surname: user_surname.text,
+              user_tel_1: user_tel_1.text, user_tel_2: user_tel_2.text, user_email: user_email.text,
               user_cni: user_cni.text, user_adresse: user_adresse.text, user_city: user_city.text, user_contry: user_contry.text,
               user_status_user: user_status.text, profil: profil));
 

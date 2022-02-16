@@ -54,7 +54,7 @@ class _SaleListState extends State<SaleList> {
 
         if(e != null) {
 
-          saleService.saleOfCheckout(e).then((value) => {
+          saleService.saleOfCheckout(int.parse(e.toString())).then((value) => {
             setState(() {
               _sales = value;
               _foundSale = value;

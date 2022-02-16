@@ -6,7 +6,7 @@ class UserModel {
   int? id;
   String? user_name;
   String? user_surname;
-  int user_tel_1;
+  String? user_tel_1;
   String? user_tel_2;
   String? password;
   String? user_email;
@@ -34,6 +34,7 @@ class UserModel {
   });
 
   factory UserModel.fromJson(Map<String, dynamic> i) => UserModel(
+        id: int.parse(i['id'].toString()),
         user_name: i['user_name'],
         user_surname: i['user_surname'],
         user_tel_1: i['user_tel_1'],

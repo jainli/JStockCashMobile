@@ -25,16 +25,16 @@ class ProductDamaged {
       );
 
   ProductDamaged.fromJson(Map<String, dynamic> json):
-        id = json['id'],
+        id = int.parse(json['id'].toString()),
         product_damaged_title = json['product_damaged_title'],
         product_damaged_bar_code = json['product_damaged_bar_code'],
-        product_damaged_quantity = json['product_damaged_quantity'],
-        product_damaged_selling_price = json['product_damaged_selling_price'],
+        product_damaged_quantity = int.parse(json['product_damaged_quantity'].toString()),
+        product_damaged_selling_price = int.parse(json['product_damaged_selling_price'].toString()),
         product_damaged_status = json['product_damaged_status'],
         product_expiry_date = json['product_expiry_date'],
-        product_damaged_qteSelling = json['product_damaged_qteSelling'],
-        product_id = json['product_id'],
-        location_id = json['location_id'];
+        product_damaged_qteSelling = int.parse(json['product_damaged_qteSelling'].toString()),
+        product_id = int.parse(json['product_id'].toString()),
+        location_id = int.parse(json['location_id'].toString());
 
   Map<String, dynamic> toJson() => {
     'id': id,

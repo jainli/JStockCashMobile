@@ -11,7 +11,7 @@ class Mark extends Table {
       );
 
   Mark.fromJson(Map<String, dynamic> json):
-        id = json['id'],
+        id = int.parse(json['id'].toString()),
         mark_title = json['mark_title'];
 
   Map<String, dynamic> toJson() => {

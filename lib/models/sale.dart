@@ -31,7 +31,7 @@ class Sale {
   });
 
   Sale.fromJson(Map<String, dynamic> json):
-        id = json['id'],
+        id = int.parse(json['id'].toString()),
         sale_number = json['sale_number'],
         sale_reduction = double.parse(json['sale_reduction'].toString()),
         sale_augmentation = double.parse(json['sale_augmentation'].toString()),
@@ -40,9 +40,9 @@ class Sale {
         sale_amount_paid = double.parse(json['sale_amount_paid'].toString()),
         sale_amount_returned = double.parse(json['sale_amount_returned'].toString()),
         customer = Customer.fromJson(json),
-        site_id = json['site_id'],
-        checkout_id = json['checkout_id'],
-        user_id = json['user_id'];
+        site_id = int.parse(json['site_id'].toString()),
+        checkout_id = int.parse(json['checkout_id'].toString()),
+        user_id = int.parse(json['user_id'].toString());
 
   Map<String, dynamic> toJson() => {
     'id': id,

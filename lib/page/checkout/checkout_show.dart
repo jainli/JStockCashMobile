@@ -68,7 +68,7 @@ class _CheckoutShowState extends State<CheckoutShow> {
 
         var amountFinal;
 
-        var amount = await checkoutService.amountOfCheckoutToday(user['checkout_id']);
+        var amount = await checkoutService.amountOfCheckoutToday(int.parse(user['checkout_id'].toString()));
 
         if (amount['montant'] == null) {
 
@@ -87,7 +87,7 @@ class _CheckoutShowState extends State<CheckoutShow> {
         });
 
 
-        var val = await checkoutService.findCheckout(user['checkout_id']);
+        var val = await checkoutService.findCheckout(int.parse(user['checkout_id'].toString()));
 
         setState(() {
 
