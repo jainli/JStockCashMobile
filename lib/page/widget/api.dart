@@ -92,6 +92,16 @@ class CallApi {
 
   }
 
+  _getCode() async {
+
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+
+    var code = localStorage.getString('code');
+
+    return  code;
+
+  }
+
   _getRefreshToken() async {
 
     SharedPreferences localStorage = await SharedPreferences.getInstance();
@@ -105,11 +115,13 @@ class CallApi {
   _setTokenHeaders() async {
 
     var token = await _getToken();
+    var code = await _getCode();
 
     return {
       'Content-type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
+      'code': jsonEncode(code),
      };
 
   }
@@ -117,10 +129,12 @@ class CallApi {
   _setHeadersLogout() async {
 
     var token = await _getToken();
+    var code = await _getCode();
 
     return {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Authorization': 'Bearer $token',
+      'code': jsonEncode(code),
     };
 
   }
@@ -128,9 +142,11 @@ class CallApi {
   _setRefreshTokenHeaders() async {
 
     var refreshToken = await _getRefreshToken();
+    var code = await _getCode();
 
     return {
       'Refreshtoken': '${refreshToken}',
+      'code': jsonEncode(code),
     };
   }
 

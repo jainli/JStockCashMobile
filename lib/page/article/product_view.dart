@@ -28,7 +28,6 @@ class _ProductViewState extends State<ProductView> {
   @override
   void initState() {
     super.initState();
-
     if(widget.product.product_image.toString() == null.toString()) {
 
       setState(() {
@@ -96,7 +95,7 @@ class _ProductViewState extends State<ProductView> {
                 child: Image.network(
                   _urlImage+'/${widget.product.product_image}',
                   errorBuilder: (context, exception, stackTrack) => Icon(Icons.error,),
-                  loadingBuilder: (context, exception, stackTrack) => CircularProgressIndicator(strokeWidth: 3.5,),
+                  //loadingBuilder: (context, exception, stackTrack) => CircularProgressIndicator(strokeWidth: 3.5,),
                   height: 200,
                 ),
               )

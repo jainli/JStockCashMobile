@@ -63,7 +63,7 @@ class _LoginState extends State<Login> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'Téléphone',
+          'Login',
           style: kLabelStyle,
         ),
         const SizedBox(height: 10.0),
@@ -73,7 +73,7 @@ class _LoginState extends State<Login> {
           height: 60.0,
           child: TextFormField(
             controller: _telController,
-            keyboardType: TextInputType.phone,
+            keyboardType: TextInputType.text,
             style: const TextStyle(
               color: Colors.black,
                 fontFamily: 'OpenSans'
@@ -85,7 +85,7 @@ class _LoginState extends State<Login> {
                 Icons.call,
                 color: Colors.black,
               ),
-              hintText: 'Entrer votre numéro de téléphone',
+              hintText: 'Entrer votre login',
               hintStyle: TextStyle(
                 color: Colors.black,
               ),
@@ -406,7 +406,79 @@ class _LoginState extends State<Login> {
 
     if(_addFormKey.currentState!.validate()) {
 
-      if(_isNumeric(_telController.text)) {
+        if(_telController.text.length == 14) {
+
+          final SharedPreferences prefs = await _prefs;
+
+          try {
+
+            response = authService.connexion(UserModel(user_tel_1: _telController.text, password: _passController.text));
+
+            response.then((e) {
+
+              setState(() {
+
+                responseServeur = e['message'];
+
+                if(e['message'] == "Success") {
+
+                  _expiryDate = DateTime.now().add(Duration(seconds: e['expires_in']));
+
+                  /*final userData = json.encode({
+                    'isLoggedIn': true,
+                    'access_token': e['access_token'],
+                    'refresh_token': e['refresh_token'],
+                    'userId': e['user'],
+                    'expiryDate': _expiryDate.toIso8601String(),
+                  });
+                  prefs.setString('userData', userData);*/
+
+                  prefs.setBool("isLoggedIn", true);
+
+                  prefs.setString('user', json.encode(e['user']));
+
+                  prefs.setString('entreprise', json.encode(e['entreprise']));
+
+                  prefs.setString('expires_in', _expiryDate.toIso8601String());
+
+                  prefs.setString('code', e['code']);
+
+                  prefs.setString('token_type', e['token_type']);
+
+                  prefs.setString('access_token', e['access_token']);
+
+                  prefs.setString('refresh_token', e['refresh_token']);
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Home(
+                            user: e['user'],
+                          )
+                      )
+                  );
+
+                }
+
+              });
+
+            });
+
+          } catch(e) {
+
+            print("Error Error");
+
+          }
+        } else {
+
+          setState(() {
+
+            responseServeur = "Le taille du login n'est pas correcte";
+
+          });
+
+        }
+     /* if(_isNumeric(_telController.text)) {
 
           final SharedPreferences prefs = await _prefs;
 
@@ -478,7 +550,7 @@ class _LoginState extends State<Login> {
         });
 
       }
-
+*/
 
     }
 

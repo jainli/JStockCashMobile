@@ -71,6 +71,8 @@ class AuthService {
 
         p.setString('expires_in', null.toString());
 
+        p.setString('code', null.toString());
+
         p.setString('token_type', null.toString());
 
         p.setString('access_token', null.toString());
@@ -111,7 +113,7 @@ class AuthService {
 
     final response = await callApi.refreshToken('refreshtoken');
 
-    //print(response.body);
+    //print(jsonDecode(response.body));
 
     if(jsonDecode(response.body)['error'].toString().toLowerCase().contains('invalid_request'.toLowerCase())) {
 

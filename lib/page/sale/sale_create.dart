@@ -862,9 +862,9 @@ class _SaleCreateState extends State<SaleCreate> {
               sale_amount_has_paid: double.parse(_amountHasPaie.toString()),
               sale_amount_paid: double.parse(_amountPaie.toString()),
               sale_amount_returned: double.parse(amountReturnedController.text),
-              site_id: int.parse(user['site_id']),
-              checkout_id: int.parse(user['checkout_id']),
-              user_id: int.parse(user['id']),
+              site_id: int.parse(user['site_id'].toString()),
+              checkout_id: int.parse(user['checkout_id'].toString()),
+              user_id: int.parse(user['id'].toString()),
               customer: cust));
 
       new_sale.then((sale) {
@@ -933,7 +933,7 @@ class _SaleCreateState extends State<SaleCreate> {
           messagePaiement = paiementService.createPaiement(Paiement(
               means_payment: 'Mobile money',
               paiement_amount: double.parse(mobileAmountController.text),
-              sale_id: int.parse(sale['sale']['id']),
+              sale_id: int.parse(sale['sale']['id'].toString()),
               user_id: int.parse(user['id'].toString())
           ));
 

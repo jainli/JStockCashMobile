@@ -24,7 +24,7 @@ class Customer {
 
   factory Customer.fromJson(Map<String, dynamic> i) {
     return Customer(
-        id: i['id'],
+        id: i['id'].toString(),
         date: i['created_at'],
         update: i['updated_at'],
         name: i['customer_name'],

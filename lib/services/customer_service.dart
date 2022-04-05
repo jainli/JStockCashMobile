@@ -16,6 +16,7 @@ class CustomerService {
     var response = await callApi.getData('customerMob');
 
     if (response.statusCode == 200) {
+
       final items = json.decode(response.body).cast<Map<String, dynamic>>();
 
       List<Customer> client = items.map<Customer>((json) {
@@ -23,6 +24,7 @@ class CustomerService {
       }).toList();
 
       return client;
+
     } else {
       //return response.statusCode as Future<List<Customer>>;
 
